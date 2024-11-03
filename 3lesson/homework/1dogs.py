@@ -1,4 +1,4 @@
-def human_to_dog_years(human_years):
+def get_dog_years(human_years: int) -> float:
     if human_years < 0:
         return "Возраст не может быть отрицательным."
 
@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     try:
         human_years = int(input("Введите возраст в человеческих годах: "))
-        dog_years = human_to_dog_years(human_years)
+        dog_years = get_dog_years(human_years)
         print(f"Возраст в собачьих годах: {dog_years}")
 
     except ValueError:

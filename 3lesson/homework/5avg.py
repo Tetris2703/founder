@@ -1,4 +1,4 @@
-def get_nums():
+def get_nums() -> list:
     num_list = []
 
     while True:
@@ -17,8 +17,15 @@ def print_info(num_list):
     num_list.sort()
 
     lower_list = [num for num in num_list if num <= avg] # ниже среднего и равных ему
-    upperer_list = [num for num in num_list if num > avg] #
+    upper_list = [num for num in num_list if num > avg] # выше среднего
 
+    # join еще не использовали
+    res1 = ', '.join(map(str, lower_list))
+    res2 = ', '.join(map(str, upper_list))
+
+    print(f'Значения <= {avg} - {res1}')
+    print(f'Значения  > {avg} - {res2}')
 
 if __name__ == '__main__':
-    func()
+    num_list = get_nums()
+    print_info(num_list)

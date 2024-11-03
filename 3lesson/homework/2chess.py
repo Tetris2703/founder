@@ -6,7 +6,7 @@
 Если сумма цифрового кода буквы и цифры - четное, то клетка ЧЕРНАЯ
 """
 # допустим, что координаты вводятся корректо
-def cell_color(cell):
+def cell_color(cell) -> str:
     char, num = cell
 
     if (ord(char) + int(num)) % 2 == 0:
