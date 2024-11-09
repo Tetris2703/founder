@@ -1,19 +1,9 @@
 from prettytable import PrettyTable
 import math
 
-class Neuron:
-    """Класс содержит все изученные функции активации в качестве статических методов"""
 
-    def __init__(self, weights):
-        self.w = weights
-
-    def dot(self, x):
-        if len(x) != len(self.w):
-            raise ValueError("Количество входных параметров должно совпадать с количеством весов.")
-
-        # генераторы наше всё
-        return sum(i * w for i, w in zip(x, self.w))
-
+class ActivationFunction:
+    """Класс функций активации"""
     @staticmethod
     def heaviside(x):
         return 1 if x >= 0 else 0
@@ -38,18 +28,28 @@ class Neuron:
     def elu(x, alpha=1.0):
         return x if x > 0 else alpha * (math.exp(x) - 1)
 
-    def get_info(self, x, k=10):
-        """k - точность вывода информации"""
-        S = self.dot(x)
 
-        # Получаем результаты
+class Neuron(ActivationFunction):
+    """Нейрон содержит, сумматор и все функции активаци"""
+
+    # инициализируем сумматор
+    def __init__(self, vec_w, vec_x):
+        self.sum_ = dot(vec_w, vec_x)
+
+    def get_info(self, k=10):
+        """k - точность вывода информации"""
+
+        # выделил в переменную для упрощения читаемости
+        sum_ = self.sum_
+
+        # Получаем результаты Y с округлением
         results = {
-            "Функция Хевисайда": round(self.heaviside(S), k),
-            "Сигмоида": round(self.sigmoid(S), k),
-            "Гиперболический тангенс": round(self.tanh(S), k),
-            "ReLU": round(self.relu(S), k),
-            "Leaky ReLU": round(self.leaky_relu(S), k),
-            "ELU": round(self.elu(S), k),
+            "Функция Хевисайда": round(self.heaviside(sum_), k),
+            "Сигмоида": round(self.sigmoid(sum_), k),
+            "Гиперболический тангенс": round(self.tanh(sum_), k),
+            "ReLU": round(self.relu(sum_), k),
+            "Leaky ReLU": round(self.leaky_relu(sum_), k),
+            "ELU": round(self.elu(sum_), k),
         }
 
         # Создаем таблицу
@@ -57,7 +57,7 @@ class Neuron:
         table.field_names = ["Функция", "Результат"]
 
         # Добавляем строки с данными
-        table.add_row(["Сумматор", round(S, k)])
+        table.add_row(["Сумматор", round(sum_, k)])
 
         for function_name, result in results.items():
             table.add_row([function_name, result])
@@ -67,6 +67,15 @@ class Neuron:
 
         print(table)
 
+# скалярное произведение
+def dot(vec_w, vec_x):
+    if len(vec_w) != len(vec_x):
+        raise ValueError("Количество входных параметров должно совпадать с количеством весов.")
+
+    # генераторы наше всё
+    return sum(i * w for i, w in zip(vec_x, vec_w))
+
+
 
 if __name__ == "__main__":
     # Задаем вектор весов
@@ -75,5 +84,5 @@ if __name__ == "__main__":
     # Задаем входной вектор
     vec_x = [1.0, 2.0, -1.0]    # x = [float(i) for i in input().split()]
 
-    neuron = Neuron(vec_w)
-    neuron.get_info(vec_x)
+    neuron = Neuron(vec_w, vec_x)
+    neuron.get_info()
