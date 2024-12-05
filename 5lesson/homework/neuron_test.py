@@ -56,6 +56,7 @@ if __name__ == "__main__":
 
     # Пример 1
     x1 = [1, 70, 30, 63]
+    x1 = [1, 1, 23, 10]
     neuron1 = Neuron(w, x1)
     interpret_sigmoid(neuron1)
 
