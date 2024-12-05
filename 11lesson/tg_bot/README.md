@@ -1,4 +1,4 @@
-tg_bot/
+```tg_bot/
 │
 ├── config.py
 ├── database.py
@@ -7,7 +7,7 @@ tg_bot/
 ├── quiz_bot.db
 ├── quiz_data.py
 └── utils.py
-
+```
 ```
 config.py
 
